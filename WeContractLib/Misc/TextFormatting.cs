@@ -27,5 +27,10 @@
             }
             return number.ToString("#,0.00");
         }
+
+        public static string PhoneNumberFormat(uint number)
+        {
+            return number.ToString("000 00 000");
+        }
     }
 }

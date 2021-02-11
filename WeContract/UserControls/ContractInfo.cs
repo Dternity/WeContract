@@ -33,8 +33,9 @@ namespace WeContract.UserControls
 
             Contract = contract;
             lbl_customerName.Text = contract.CustomerName;
-            lbl_created.Text = $@"Created:{contract.CreationDate.ToShortDateString()}";
-            lbl_price.Text = TextFormatting.CurrencyFormat(contract.Price, true);
+            lbl_created.Text = $@"Created:{contract.DateCreated.ToShortDateString()}";
+            //lbl_price.Text = TextFormatting.CurrencyFormat(contract.Price, true);
+            contractInfoPriceDisplay1.lbl_price.Text = TextFormatting.CurrencyFormat(contract.Price, true);
             var imgList = new List<Image>();
 
             var enabledColor = ColorDefs.ContractIconEnabled;
@@ -48,7 +49,7 @@ namespace WeContract.UserControls
             var bmp = ImageHelper.CombineBitmapGrid(imgList.ToArray(), 2, 2, 10);
             pb_tags.Size = bmp.Size;
             pb_tags.Image = bmp;
-            pb_tags.Top = tb_note.Top;
+            //pb_tags.Top = tb_note.Top;
         }
 
 
@@ -60,16 +61,24 @@ namespace WeContract.UserControls
 
         private void ContractInfo_Load(object sender, EventArgs e)
         {
+            lbl_customerName.Paint += DrawSeperatorLineCustomerName;
+
             var contract = new Contract();
             contract.IsArchived = true;
             contract.IsOrdered = false;
             contract.IsPaid = true;
             contract.IsDelivered = false;
             contract.CustomerName = "Henrik Bjornberg";
-            contract.CreationDate = DateTime.Now;
+            contract.DateCreated = DateTime.Now;
             contract.Price = 140042.42;
             SetContract(contract);
-   
+        }
+
+        private void DrawSeperatorLineCustomerName(object sender, PaintEventArgs e)
+        {
+            var g = e.Graphics;
+            using var brush = new SolidBrush(Color.FromArgb(100, 100, 100));
+            g.FillRectangle(brush, lbl_customerName.Left -5, lbl_customerName.Font.Height , lbl_customerName.Width, 2);
         }
     }
 }
