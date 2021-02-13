@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using WeContractLib.Customer;
 using WeContractLib.Contract;
@@ -13,7 +8,6 @@ using WeContractLib;
 using System.Diagnostics;
 using WeContractLib.Diagnostics;
 using WeContract.Helpers;
-using WeContractLib.Misc;
 
 namespace WeContract
 {
@@ -28,6 +22,9 @@ namespace WeContract
         {
             Controller.Initialize();
             ImageManager.Initialize();
+
+            WeContractLib.Storage.LiteDB.CreateDatabase();
+            return;
             var imgList = new List<Image>();
 
 
