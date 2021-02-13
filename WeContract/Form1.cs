@@ -25,7 +25,9 @@ namespace WeContract
 
             WeContractLib.Storage.LiteDB.CreateDatabase();
             return;
+#pragma warning disable CS0162 // Unreachable code detected
             var imgList = new List<Image>();
+#pragma warning restore CS0162 // Unreachable code detected
 
 
             var img1 = new ImageInfo("contractIcons", "ordered", ImageHelper.GetImageFromBase64(ContractBase64Icons.OrderedIconBase64));
