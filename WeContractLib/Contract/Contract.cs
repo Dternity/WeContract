@@ -7,7 +7,7 @@ using WeContractLib.Misc;
 
 namespace WeContractLib.Contract
 {
-    public class Contract : IThing
+    public class Contract : IThing, IDisplayable
     {
 
         public Contract()
@@ -84,6 +84,10 @@ namespace WeContractLib.Contract
 
         }
 
+        /// <summary>
+        /// Gets the total cost of all the items.
+        /// </summary>
+        /// <returns>Total cost as a double.</returns>
         public double GetTotalCost()
         {
             return Items.Sum(x => x.GetTotalPrice());
@@ -97,21 +101,13 @@ namespace WeContractLib.Contract
         {
             get
             {
-                //if (_IThing == null)
-                //{
-                //    Logger.Inst.Error($@"Customer(IThing) is null!", MethodBase.GetCurrentMethod());
-                //    return null;
-                //}
-
-                var customer = _IThing as Customer.Customer;
-
-                if (customer == null)
+                if (_IThing as Customer.Customer == null)
                 {
                     Logger.Inst.Error($@"Customer(IThing) is null!", MethodBase.GetCurrentMethod());
                     return null;
                 }
 
-                return customer;
+                return _IThing as Customer.Customer;
             }
             set
             {

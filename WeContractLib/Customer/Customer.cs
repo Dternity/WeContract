@@ -6,9 +6,8 @@ using WeContractLib.Misc;
 
 namespace WeContractLib.Customer
 {
-    public class Customer : IThing
+    public class Customer : IThing, IDisplayable
     {
-
         public Customer()
         {
             DateCreated = DateTime.Now;
@@ -45,6 +44,7 @@ namespace WeContractLib.Customer
             CountryCode = countryCode;
             Note = note;
         }
+
 
         public List<object> GetColumnIndexes()
         {
