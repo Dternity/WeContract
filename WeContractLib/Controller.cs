@@ -15,11 +15,18 @@ namespace WeContractLib
             _imageM = new ImageManager();
             CustomerManager = _customerM;
             ContractManager = _contractM;
-            ImageManager = _imageM;
         }
 
-        public static Customer.CustomerManager CustomerManager;
+        public static ImageManager ImageManager
+        {
+			get
+			{
+				return _imageM ??= new ImageManager();
+            }
+		}
+
+		public static Customer.CustomerManager CustomerManager;
         public static Contract.ContractManager ContractManager;
-        public static ImageManager ImageManager;
+        
     }
 }

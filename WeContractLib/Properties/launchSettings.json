@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "WeContract": {
+    "WeContractLib": {
       "commandName": "Project",
       "nativeDebugging": false
     }

@@ -9,12 +9,16 @@ using System.Diagnostics;
 using WeContractLib.Diagnostics;
 using WeContractLib.Misc;
 using WeContractLib.Storage;
+using WeContract.UserControls;
 
 namespace WeContract
 {
+    
 	public partial class frmMain : Form
     {
-		public frmMain()
+
+        private WCDataGridView wcDataGridView1 = new WCDataGridView();
+        public frmMain()
         {
             InitializeComponent();
         }
@@ -25,6 +29,8 @@ namespace WeContract
 
             Loader.Inst.Initialize();
             Loader.Inst.Execute();
+            Controls.Add(wcDataGridView1);
+            wcDataGridView1.Dock = DockStyle.Right;
 
             comboBox1.Items.AddRange(new object[]
             { wcDataGridView1.dgv, wcDataGridView1.dgv.AlternatingRowsDefaultCellStyle, wcDataGridView1.dgv.ColumnHeadersDefaultCellStyle, wcDataGridView1.dgv.DefaultCellStyle, wcDataGridView1.dgv.RowHeadersBorderStyle, wcDataGridView1.dgv.RowHeadersDefaultCellStyle, wcDataGridView1.dgv.RowsDefaultCellStyle });

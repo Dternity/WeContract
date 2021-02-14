@@ -52,7 +52,8 @@ namespace WeContract.UserControls
 			// dgv
 			// 
 			this.dgv.AllowUserToDeleteRows = false;
-			this.dgv.AllowUserToOrderColumns = true;
+			this.dgv.AllowUserToResizeColumns = false;
+			this.dgv.AllowUserToResizeRows = false;
 			dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(210)))), ((int)(((byte)(210)))));
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.White;
 			this.dgv.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
@@ -71,6 +72,7 @@ namespace WeContract.UserControls
 			dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
 			this.dgv.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this.dgv.ColumnHeadersHeight = 30;
+			this.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
 			this.dgv.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colUnits,
             this.colName,
@@ -111,6 +113,7 @@ namespace WeContract.UserControls
 			this.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
 			this.dgv.ShowCellErrors = false;
 			this.dgv.ShowEditingIcon = false;
+			this.dgv.ShowRowErrors = false;
 			this.dgv.Size = new System.Drawing.Size(671, 315);
 			this.dgv.TabIndex = 3;
 			this.dgv.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgv_CellPainting);

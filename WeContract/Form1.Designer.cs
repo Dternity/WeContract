@@ -378,7 +378,6 @@ namespace WeContract
         private System.Windows.Forms.DataGridViewTextBoxColumn colCustomerContactedDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCustomerEmail;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNote;
-        private UserControls.WCDataGridView wcDataGridView1;
         private System.Windows.Forms.PropertyGrid propertyGrid1;
         private System.Windows.Forms.ComboBox comboBox1;
     }

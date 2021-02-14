@@ -1,35 +1,46 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 using WeContract.UIHelpers;
 using WeContractLib.Contract;
+using WeContractLib.Diagnostics;
 using WeContractLib.Storage;
 
 namespace WeContract.UserControls
 {
 	public partial class WCDataGridView : UserControl
     {
+        private ImageData _imgs;
         public WCDataGridView()
         {
             InitializeComponent();
+            _imgs = new ImageData("contractIcons", "ordered", ImageHelper.GetImageFromBase64(ContractBase64Icons.OrderedIconBase64));
+            _imgs.Images.Add("delivered", ImageHelper.GetImageFromBase64(ContractBase64Icons.DeliveredIconBase64));
+            _imgs.Images.Add("paid", ImageHelper.GetImageFromBase64(ContractBase64Icons.PaidIconBase64));
         }
 
         private void dgv_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
+
+            //e.Handled = true;
+           // return;
+
             if (e.ColumnIndex == 5 && e.RowIndex == -1)
             {
-                var img = ImageHelper.GetImageFromBase64(ContractBase64Icons.OrderedIconBase64);
-                DGVHelper.DrawHeaderIcon(e, img, new Point(10, 2), true);
+                //var img = ImageHelper.GetImageFromBase64(ContractBase64Icons.OrderedIconBase64);
+                DGVHelper.DrawHeaderIcon(e, _imgs.Images["ordered"], new Point(10, 2), true);
             }
             if (e.ColumnIndex == 6 && e.RowIndex == -1)
             {
-                var img = ImageHelper.GetImageFromBase64(ContractBase64Icons.DeliveredIconBase64);
+               // var img = ImageHelper.GetImageFromBase64(ContractBase64Icons.DeliveredIconBase64);
 
-                DGVHelper.DrawHeaderIcon(e, img, new Point(0, 2), true);
+                DGVHelper.DrawHeaderIcon(e, _imgs.Images["delivered"], new Point(0, 2), true);
             }
             if (e.ColumnIndex == 7 && e.RowIndex == -1)
             {
-                var img = ImageHelper.GetImageFromBase64(ContractBase64Icons.PaidIconBase64);
-                DGVHelper.DrawHeaderIcon(e, img, new Point(0, 2), true);
+            //    var img = ImageHelper.GetImageFromBase64(ContractBase64Icons.PaidIconBase64);
+                DGVHelper.DrawHeaderIcon(e, _imgs.Images["paid"], new Point(0, 2), true);
             }
         }
 
@@ -53,6 +64,13 @@ namespace WeContract.UserControls
             dgv.DefaultCellStyle.SelectionForeColor = Color.FromArgb(160, 160, 160);
             dgv.DefaultCellStyle.Padding = new Padding(1);
             dgv.PerformLayout();
+            if (!System.Windows.Forms.SystemInformation.TerminalServerSession)
+            {
+                Type dgvType = dgv.GetType();
+                PropertyInfo pi = dgvType.GetProperty("DoubleBuffered",
+                  BindingFlags.Instance | BindingFlags.NonPublic);
+                pi.SetValue(dgv, true, null);
+            }
         }
     }
 }

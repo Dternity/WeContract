@@ -15,8 +15,17 @@ namespace WeContract.Helpers
         }
 
 
-        public static ImageAtlas Inst ;
-    }
+		private static ImageAtlas inst;
+
+		public static ImageAtlas Inst { get 
+            { 
+                if(inst == null)
+				{
+                    Initialize();
+				}
+                return inst; 
+            } set => inst = value; }
+	}
     public class ImageAtlas : Atlas<ImageInfo>
     {
         public ImageAtlas() : base("Image")
