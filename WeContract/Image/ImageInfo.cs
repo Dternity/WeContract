@@ -33,5 +33,15 @@ namespace WeContract.Helpers
         public string Name { get; set; }
         public DateTime DateCreated { get; set; }
         public Dictionary<string, Image> Images;
+
+        public bool AttachEntity(IThing entity)
+        {
+            return true;
+        }
+
+        public bool DeattachEntity(IThing entity)
+        {
+            return true;
+        }
     }
 }

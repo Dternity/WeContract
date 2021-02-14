@@ -4,6 +4,8 @@ namespace WeContractLib.Diagnostics
 {
     public sealed class Logger
     {
+        
+
         private static readonly Logger inst = new Logger();
         private const string FILE_EXT = ".log";
         private readonly string datetimeFormat;
@@ -108,17 +110,15 @@ namespace WeContractLib.Diagnostics
 
         private void WriteLine(string text, bool append = true)
         {
-            using (var writer =
-                new System.IO.StreamWriter(logFilename, append, System.Text.Encoding.UTF8))
+            using var writer =
+                new System.IO.StreamWriter(logFilename, append, System.Text.Encoding.UTF8);
+            if (string.IsNullOrEmpty(text))
             {
-                if (string.IsNullOrEmpty(text))
-                {
-                    return;
-                }
-
-                writer.WriteLine(text);
-                System.Diagnostics.Debug.Print(text);
+                return;
             }
+
+            writer.WriteLine(text);
+            System.Diagnostics.Debug.Print(text);
         }
 
         private void WriteFormattedLog(LogLevel level, string text)

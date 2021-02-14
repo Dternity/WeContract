@@ -8,6 +8,7 @@ using WeContractLib;
 using System.Diagnostics;
 using WeContractLib.Diagnostics;
 using WeContract.Helpers;
+using WeContractLib.Misc;
 
 namespace WeContract
 {
@@ -21,10 +22,13 @@ namespace WeContract
         private void frmMain_Load(object sender, EventArgs e)
         {
             Controller.Initialize();
+
+            Loader.Inst.Initialize();
+            Loader.Inst.Execute();
             ImageManager.Initialize();
 
-            WeContractLib.Storage.LiteDB.CreateDatabase();
-            return;
+           // WeContractLib.Storage.DBO.CreateDatabase();
+           // return;
 #pragma warning disable CS0162 // Unreachable code detected
             var imgList = new List<Image>();
 #pragma warning restore CS0162 // Unreachable code detected
@@ -37,10 +41,9 @@ namespace WeContract
 
             imgList.AddRange(ImageManager.Inst.Get("contractIcons").Images.Values);
             var bmp = ImageHelper.CombineBitmapGrid(imgList.ToArray(), 4, 1, 10);
-
             var sw = new Stopwatch();
             sw.Restart();
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var customer = new Customer("Henrik" + i.ToString(), "Selsbanesgate 21", 41099661, 8514, "test@gmail.com", 47, "Hello World");
 
@@ -56,7 +59,7 @@ namespace WeContract
                    customer.GetColumnIndexes().ToArray());
                 dgv_customers.Rows.Add(row);
             }
-            sw.LogElapsedMs(true, "100 customers");
+            sw.LogElapsedMs(true, "10 customers");
 
             foreach (var contract in Controller.ContractManager.GetList())
             {
@@ -65,10 +68,11 @@ namespace WeContract
                     var item = new WeContractLib.Item.Item
                     {
                         Name = "Item:" + i.ToString(),
-                        Quantity = (ushort)new Random().Next(1, 10),
+                        Units = (ushort)new Random().Next(1, 10),
                         Price = new Random().Next(50, 10000)
                     };
-                    contract.Items.Add(item);
+                    contract.AddItem(item);
+              
                 }
                 var row = new DataGridViewRow
                 {
@@ -92,6 +96,24 @@ namespace WeContract
             //    item.Ordered,
             //    item.Delivered,
             //    item.Purchased);
+        }
+
+        private void dgv_contracts_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.ColumnIndex == 1 && e.RowIndex == -1)
+            {
+                var img = ImageHelper.GetImageFromBase64(ContractBase64Icons.PaidIconBase64);
+                e.PaintBackground(e.ClipBounds, false);
+
+                Point pt = e.CellBounds.Location;  // where you want the bitmap in the cell
+
+                int offset = (e.CellBounds.Width - img.Width) / 2;
+                pt.X += offset;
+                pt.Y += 1;
+                e.Graphics.DrawImage(img, pt);
+                //img.Draw(e.Graphics, pt, 0);
+                e.Handled = true;
+            }
         }
     }
 }

@@ -8,5 +8,7 @@ namespace WeContractLib
         public string Name { get; set; }
         public Guid CID { get; set; }
         public DateTime DateCreated { get; set; }
+        public abstract bool AttachEntity(IThing entity);
+        public abstract bool DeattachEntity(IThing entity);
     }
 }

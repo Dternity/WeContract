@@ -1,4 +1,5 @@
-﻿using WeContractLib;
+﻿using LiteDB;
+using WeContractLib;
 
 namespace WeContract.Helpers
 {
@@ -21,6 +22,16 @@ namespace WeContract.Helpers
         public ImageAtlas() : base("Image")
         {
             
+        }
+
+        protected override bool AddToDbAfterInserted(LiteCollection<ImageInfo> col, ImageInfo entity)
+        {
+            return true;
+        }
+
+        protected override bool AddToDbPreCheck(ImageInfo entity)
+        {
+            return true;
         }
     }
 }

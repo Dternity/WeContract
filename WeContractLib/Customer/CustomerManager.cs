@@ -1,42 +1,51 @@
 ﻿using System.Reflection;
 using WeContractLib.Diagnostics;
+using WeContractLib.Misc;
 
 namespace WeContractLib.Customer
 {
     public class CustomerManager: Atlas<Customer>
     {
-        public CustomerManager() : base("Customer")
+        private bool _disposed = false;
+        public CustomerManager() : base("customer")
         {
         }
 
-        public override bool Add(Customer entity)
+        protected override void Dispose(bool disposing)
         {
-            if (Exist(entity.CID))
+            if (_disposed)
             {
-                Logger.Inst.Error($"{_TName} with CID: {entity.CID} already exist!", MethodBase.GetCurrentMethod());
-                return false;
+                return;
             }
 
-            if (_listIThings.Exists(x => x.Name == entity.Name))
+            if (disposing)
             {
-                Logger.Inst.Error($"{_TName}  with Name: {entity.Name} already exist in {_TName}Manager");
-                return false;
+               
             }
 
-            entity.ID = _indexCounter;
-            _indexCounter++;
+            _disposed = true;
 
-            _listIThings.Add(entity);
-            _dictIThings.Add(entity.CID, entity);
-            Logger.Inst.Info($@"{_TName} with name:{entity.Name} added to {_TName}Manager!.");
-            return true;
+            // Call base class implementation.
+            base.Dispose(disposing);
         }
-
         public void Test()
         {
             var customer = new Customer("Henrik", "Selsbanesgate 21", 41099661, 8514, "test@gmail.com", 47, "Hello World");
             _dictIThings.Add(customer.CID,customer);
             _dictIThings.TryGetValue(customer.CID, out var thing);
+        }
+
+
+
+        protected override bool AddToDbAfterInserted(LiteDB.LiteCollection<Customer> col, Customer entity)
+        {
+            GlobalEventHandler.CustomerAdded?.Invoke(this, new GlobalEventHandler.EventArgs<Customer>(entity));
+            return col.EnsureIndex(x => x.Name);
+        }
+
+        protected override bool AddToDbPreCheck(Customer entity)
+        {
+            return true;
         }
     }
 }

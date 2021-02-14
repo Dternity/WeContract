@@ -45,7 +45,6 @@ namespace WeContractLib.Customer
             Note = note;
         }
 
-
         public List<object> GetColumnIndexes()
         {
             var dateCreated = "Nha";
@@ -107,25 +106,32 @@ namespace WeContractLib.Customer
             };
         }
 
-        public virtual void AddContract(Guid contractCID)
+        public bool AddContract(Guid entity)
         {
             if (Contracts == null)
             {
                 Contracts = new List<Guid>();
             }
 
-            Contracts.Add(contractCID);
+            if (Contracts.Contains(entity))
+            {
+                Log.Warning($@"Contract:{entity} is already added to customer:{Name}");
+                return false;
+            }
+
+            Contracts.Add(entity);
+            return true;
         }
 
-        public virtual void RemoveContract(Guid contractCID)
+        public bool RemoveContract(Guid entity)
         {
-            if (Contracts.Remove(contractCID))
+            if (Contracts.Remove(entity))
             {
-                Logger.Inst.Info($@"Removed contract from '{Name}' contractCID:{contractCID}");
-                return;
+                return true;
             }
-            Logger.Inst.Error($@"Contract could not be removed from '{Name}' contractCID:{contractCID}",
-                MethodBase.GetCurrentMethod());
+
+            Log.Warning($@"Contract:{entity} is not attached to customer:{Name}");
+            return false;
         }
 
         public int ID { get; set; }
@@ -145,6 +151,16 @@ namespace WeContractLib.Customer
         public override string ToString()
         {
             return $"ID: {ID} CID:{CID} Name: {Name} Created: {DateCreated.ToShortDateString()}";
+        }
+
+        public bool AttachEntity(IThing entity)
+        {
+            return AddContract(entity.CID);
+        }
+
+        public bool DeattachEntity(IThing entity)
+        {
+            return RemoveContract(entity.CID);
         }
     }
 }

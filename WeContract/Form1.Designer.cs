@@ -33,6 +33,7 @@ namespace WeContract
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -68,7 +69,7 @@ namespace WeContract
             // 
             this.contractInfo1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
             this.contractInfo1.ForeColor = System.Drawing.Color.White;
-            this.contractInfo1.Location = new System.Drawing.Point(840, 367);
+            this.contractInfo1.Location = new System.Drawing.Point(307, 333);
             this.contractInfo1.Name = "contractInfo1";
             this.contractInfo1.Size = new System.Drawing.Size(371, 158);
             this.contractInfo1.TabIndex = 1;
@@ -140,8 +141,9 @@ namespace WeContract
             this.dgv_contracts.ShowCellErrors = false;
             this.dgv_contracts.ShowEditingIcon = false;
             this.dgv_contracts.ShowRowErrors = false;
-            this.dgv_contracts.Size = new System.Drawing.Size(1227, 277);
+            this.dgv_contracts.Size = new System.Drawing.Size(784, 277);
             this.dgv_contracts.TabIndex = 2;
+            this.dgv_contracts.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.dgv_contracts_CellPainting);
             // 
             // colName
             // 
@@ -165,6 +167,7 @@ namespace WeContract
             // colStatus
             // 
             this.colStatus.HeaderText = "Status";
+            this.colStatus.Image = ((System.Drawing.Image)(resources.GetObject("colStatus.Image")));
             this.colStatus.Name = "colStatus";
             this.colStatus.ReadOnly = true;
             this.colStatus.Resizable = System.Windows.Forms.DataGridViewTriState.True;
@@ -280,7 +283,7 @@ namespace WeContract
             this.dgv_customers.ShowCellErrors = false;
             this.dgv_customers.ShowEditingIcon = false;
             this.dgv_customers.ShowRowErrors = false;
-            this.dgv_customers.Size = new System.Drawing.Size(1227, 257);
+            this.dgv_customers.Size = new System.Drawing.Size(784, 257);
             this.dgv_customers.TabIndex = 3;
             // 
             // dataGridViewTextBoxColumn1
