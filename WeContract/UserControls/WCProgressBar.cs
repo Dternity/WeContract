@@ -6,7 +6,6 @@ using System.Windows.Forms;
 
 namespace WeContract.UserControls
 {
-    
     public partial class WCProgressBar : UserControl
     {
         private uint _minValue;
@@ -197,7 +196,7 @@ namespace WeContract.UserControls
                 var p = new GraphicsPath();
 
                 p.AddString(
-                    $@"{(int)(percent * 100)}%",
+                    $"{(int)(percent * 100)}%",
                     Font.FontFamily,
                     (int)Font.Style,
                     emSize,

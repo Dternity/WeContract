@@ -10,13 +10,11 @@ namespace WeContractLib.Contract
 {
     public class Contract : IThing, IDisplayable
     {
-
         public Contract()
         {
             CID = Guid.NewGuid();
             DateCreated = DateTime.Now;
             _items = new List<Item.Item>();
-            
         }
 
         public Contract(Customer.Customer customer) : this()
@@ -29,21 +27,15 @@ namespace WeContractLib.Contract
 
         public List<object> GetColumnIndexes()
         {
-
-            var customer = Customer;
+            var customer = Customer ?? Controller.CustomerManager.Get(CustomerCID);
             if (customer == null)
             {
-                customer = Controller.CustomerManager.Get(CustomerCID);
-            }
-            if (customer == null)
-            {
-                Log.Error($@"Customer is null on contract: {CID} Customer name:{CustomerName}", MethodBase.GetCurrentMethod());
+                Log.Error($"Customer is null on contract: {CID} Customer name:{CustomerName}", MethodBase.GetCurrentMethod());
                 return null;
             }
             var customerContactedDate = "Nha";
             var customerEmail = "Nha";
             var archivedDate = "Nha";
-
 
             if (CustomerContactedDate != new DateTime())
             {
@@ -62,7 +54,7 @@ namespace WeContractLib.Contract
 
             var customerContacted = "Nha";
 
-            if (CustomerContacted == false)
+            if (!CustomerContacted)
             {
                 customerContacted = "Nha";
             }
@@ -82,7 +74,6 @@ namespace WeContractLib.Contract
                     customerEmail,
                     Note,
                 };
-
         }
         #region Item
 
@@ -99,13 +90,13 @@ namespace WeContractLib.Contract
         {
             if (item == null)
             {
-                Log.Warning($@"AddItem - Item is null contract:{CID}");
+                Log.Warning($"AddItem - Item is null contract:{CID}");
                 return false;
             }
 
             if (Items.Contains(item))
             {
-                Log.Warning($@"AddItem - There is already an item attached to contract:{CID} Item:{item.Name}");
+                Log.Warning($"AddItem - There is already an item attached to contract:{CID} Item:{item.Name}");
                 return false;
             }
 
@@ -120,7 +111,7 @@ namespace WeContractLib.Contract
         {
             if (item == null)
             {
-                Log.Warning($@"RemoveItem - Item is null contract:{CID}");
+                Log.Warning($"RemoveItem - Item is null contract:{CID}");
                 return false;
             }
 
@@ -132,21 +123,16 @@ namespace WeContractLib.Contract
                 return Items.Remove(item);
             }
 
-            Log.Warning($@"RemoveItem - Item:{item.Name} does on exist in contract:{CID}.");
+            Log.Warning($"RemoveItem - Item:{item.Name} does on exist in contract:{CID}.");
             return false;
         }
 
         private void OnItemChanged(object sender, EventArgs<Item.Item> e)
         {
-            Log.Debug($@"Item: {e.Entity.Name}  changed!");
-
+            Log.Debug($"Item: {e.Entity.Name}  changed!");
         }
 
-
-
         #endregion
-
-
 
         public bool AttachEntity(IThing entity)
         {
@@ -154,13 +140,13 @@ namespace WeContractLib.Contract
 
             if(newCustomer == null)
             {
-                Log.Warning($@"Attach - new customer is null on contract:{CID}");
+                Log.Warning($"Attach - new customer is null on contract:{CID}");
                 return false;
             }
 
             if (Customer != null)
             {
-                Log.Warning($@"Attach - There is already a customer attached to contract:{CID} Current customer:{Customer.Name} new customer:{newCustomer.Name}");
+                Log.Warning($"Attach - There is already a customer attached to contract:{CID} Current customer:{Customer.Name} new customer:{newCustomer.Name}");
                 return false;
             }
 
@@ -182,7 +168,7 @@ namespace WeContractLib.Contract
 
             if (Customer.CID != entity.CID)
             {
-                Log.Warning($@"Deattach - wrong CID, deattaching blocked on contract:{CID}");
+                Log.Warning($"Deattach - wrong CID, deattaching blocked on contract:{CID}");
                 return false;
             }
 
@@ -200,9 +186,9 @@ namespace WeContractLib.Contract
         {
             get
             {
-                if (_IThing as Customer.Customer == null)
+                if (!(_IThing is Customer.Customer))
                 {
-                    Log.Error($@"Customer(IThing) is null!", MethodBase.GetCurrentMethod());
+                    Log.Error("Customer(IThing) is null!", MethodBase.GetCurrentMethod());
                     return null;
                 }
 
@@ -212,7 +198,7 @@ namespace WeContractLib.Contract
             {
                 if (value == null)
                 {
-                    Log.Error($@"Customer(IThing) is null!", MethodBase.GetCurrentMethod());
+                    Log.Error("Customer(IThing) is null!", MethodBase.GetCurrentMethod());
                     return;
                 }
 
@@ -251,6 +237,4 @@ namespace WeContractLib.Contract
 
         public event EventHandler<EventArgs<Item.Item>> ItemChanged;
     }
-
-
 }

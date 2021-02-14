@@ -8,6 +8,5 @@ namespace WeContractLib
 {
     public abstract class Thing
     {
-
     }
 }

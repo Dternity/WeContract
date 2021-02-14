@@ -17,13 +17,13 @@ namespace WeContractLib
         internal int _indexCounter = 0;
         private bool _disposed = false;
 
-        public Atlas()
+        internal Atlas()
         {
             _listIThings = new List<T>();
             _dictIThings = new Dictionary<Guid, T>();
         }
 
-        public Atlas(string name) : this()
+        internal Atlas(string name) : this()
         {
             _TName = name;
         }
@@ -61,7 +61,7 @@ namespace WeContractLib
 
         public void Dispose()
         {
-            Log.Info($@"Disposing {_TName}");
+            Log.Info($"Disposing {_TName}");
             Dispose(true);
         }
 
@@ -77,9 +77,6 @@ namespace WeContractLib
                 // TODO: dispose managed state (managed objects).
             }
 
-            // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-            // TODO: set large fields to null.
-
             _disposed = true;
         }
 
@@ -87,7 +84,7 @@ namespace WeContractLib
 
         public virtual bool AddToDb(T entity)
         {
-            if(AddToDbPreCheck(entity) == false)
+            if(!AddToDbPreCheck(entity))
             {
                 return false;
             }
@@ -105,13 +102,12 @@ namespace WeContractLib
             var res = col.Insert(entity);
             var suc = col.EnsureIndex(x => x.CID) && AddToDbAfterInserted(col, entity);
 
-            Log.Debug($@"Added {_TName} with name:{entity.CID} doc id:{res}");
+            Log.Debug($"Added {_TName} with name:{entity.CID} doc id:{res}");
             return suc;
         }
 
         protected abstract bool AddToDbPreCheck(T entity);
         protected abstract bool AddToDbAfterInserted(LiteCollection<T> col, T entity);
-
 
         public virtual T Get(Query query)
         {
@@ -121,7 +117,6 @@ namespace WeContractLib
 
             return col.FindOne(query);
         }
-
 
         public virtual void Initialize()
         {
@@ -134,7 +129,7 @@ namespace WeContractLib
                     _dictIThings.Add(entity.CID, entity);
                 }
                 _indexCounter = _listIThings.Count;
-                Log.Debug($@"Loaded: {_indexCounter} {_TName}");
+                Log.Debug($"Loaded: {_indexCounter} {_TName}");
 
                 return;
             }
@@ -151,12 +146,12 @@ namespace WeContractLib
 
         public T Get(Guid cid)
         {
-            return (T)_listIThings.First(x => x.CID == cid);
+            return _listIThings.First(x => x.CID == cid);
         }
 
         public T Get(string name)
         {
-            return _listIThings.FirstOrDefault(x => x.Name == name);
+            return _listIThings.Find(x => x.Name == name);
         }
 
         public bool Exist(Guid cid)

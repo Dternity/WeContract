@@ -4,8 +4,6 @@ namespace WeContractLib.Diagnostics
 {
     public sealed class Logger
     {
-        
-
         private static readonly Logger inst = new Logger();
         private const string FILE_EXT = ".log";
         private readonly string datetimeFormat;
@@ -59,7 +57,7 @@ namespace WeContractLib.Diagnostics
         /// <param name="methodBase">MethodBase</param>
         public void Error(string text, MethodBase methodBase)
         {
-            WriteFormattedLog(LogLevel.ERROR, $@"{text} @{methodBase.DeclaringType?.Name}.{methodBase.Name}");
+            WriteFormattedLog(LogLevel.ERROR, $"{text} @{methodBase.DeclaringType?.Name}.{methodBase.Name}");
         }
 
         /// <summary>
@@ -78,7 +76,7 @@ namespace WeContractLib.Diagnostics
         /// <param name="methodBase">MethodBase</param>
         public void Fatal(string text, MethodBase methodBase)
         {
-            WriteFormattedLog(LogLevel.FATAL, $@"{text} @{methodBase.DeclaringType?.Name}.{methodBase.Name}");
+            WriteFormattedLog(LogLevel.FATAL, $"{text} @{methodBase.DeclaringType?.Name}.{methodBase.Name}");
         }
 
         /// <summary>

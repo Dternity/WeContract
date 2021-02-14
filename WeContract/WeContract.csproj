@@ -7,6 +7,16 @@
     <StartupObject>WeContract.Program</StartupObject>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Prefer32Bit>true</Prefer32Bit>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Image\ImageAtlas.cs" />
+    <Compile Remove="Image\ImageInfo.cs" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\WeContractLib\WeContractLib.csproj" />
   </ItemGroup>
@@ -24,6 +34,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Image\" />
   </ItemGroup>
 
 </Project>

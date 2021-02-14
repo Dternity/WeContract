@@ -14,9 +14,9 @@
                 return (num / 1000).ToString("#,0.00K");
 
             if (num >= 10000 || forcePrefix)
-                return (num / 1000).ToString("#,0.00") + "K";
+                return (num / 1000).ToString("#,0.##") + "K";
 
-            return num.ToString("#,0.00");
+            return num.ToString("#,0.##");
         }
 
         public static string CurrencyFormat(double number, bool useCurrencyPrefix = false)
@@ -25,7 +25,7 @@
             {
                 return number.KiloFormat();
             }
-            return number.ToString("#,0.00");
+            return number.ToString("### ### ##0.0#");
         }
 
         public static string PhoneNumberFormat(uint number)

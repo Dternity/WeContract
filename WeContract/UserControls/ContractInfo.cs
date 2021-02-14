@@ -1,23 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using WeContract.Helpers;
 using WeContractLib.Contract;
 using WeContractLib.Diagnostics;
 using WeContractLib.Misc;
+using WeContractLib.Storage;
 
 namespace WeContract.UserControls
 {
-    public partial class ContractInfo : UserControl
+	public partial class ContractInfo : UserControl
     {
-        public static Contract Contract;
+        private static Contract Contract;
         public ContractInfo()
         {
             InitializeComponent();
@@ -27,13 +22,13 @@ namespace WeContract.UserControls
         {
             if (contract == null)
             {
-                Logger.Inst.Error($@"Contract was null on:{Name}", MethodBase.GetCurrentMethod());
+                Logger.Inst.Error($"Contract was null on:{Name}", MethodBase.GetCurrentMethod());
                 return;
             }
 
             Contract = contract;
             lbl_customerName.Text = contract.CustomerName;
-            lbl_created.Text = $@"Created:{contract.DateCreated.ToShortDateString()}";
+            lbl_created.Text = $"Created:{contract.DateCreated.ToShortDateString()}";
             //lbl_price.Text = TextFormatting.CurrencyFormat(contract.Price, true);
             contractInfoPriceDisplay1.lbl_price.Text = TextFormatting.CurrencyFormat(contract.Price, true);
             var imgList = new List<Image>();
@@ -52,26 +47,25 @@ namespace WeContract.UserControls
             //pb_tags.Top = tb_note.Top;
         }
 
-
         private void button1_Click(object sender, EventArgs e)
         {
-
-  
         }
 
         private void ContractInfo_Load(object sender, EventArgs e)
         {
             lbl_customerName.Paint += DrawSeperatorLineCustomerName;
 
-            var contract = new Contract();
-            contract.IsArchived = true;
-            contract.IsOrdered = false;
-            contract.IsPaid = true;
-            contract.IsDelivered = false;
-            contract.CustomerName = "Henrik Bjornberg";
-            contract.DateCreated = DateTime.Now;
-            contract.Price = 140042.42;
-            SetContract(contract);
+			var contract = new Contract
+			{
+				IsArchived = true,
+				IsOrdered = false,
+				IsPaid = true,
+				IsDelivered = false,
+				CustomerName = "Henrik Bjornberg",
+				DateCreated = DateTime.Now,
+				Price = 140042.42
+			};
+			SetContract(contract);
         }
 
         private void DrawSeperatorLineCustomerName(object sender, PaintEventArgs e)

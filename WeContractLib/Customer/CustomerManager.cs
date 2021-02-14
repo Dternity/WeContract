@@ -20,7 +20,6 @@ namespace WeContractLib.Customer
 
             if (disposing)
             {
-               
             }
 
             _disposed = true;
@@ -28,14 +27,6 @@ namespace WeContractLib.Customer
             // Call base class implementation.
             base.Dispose(disposing);
         }
-        public void Test()
-        {
-            var customer = new Customer("Henrik", "Selsbanesgate 21", 41099661, 8514, "test@gmail.com", 47, "Hello World");
-            _dictIThings.Add(customer.CID,customer);
-            _dictIThings.TryGetValue(customer.CID, out var thing);
-        }
-
-
 
         protected override bool AddToDbAfterInserted(LiteDB.LiteCollection<Customer> col, Customer entity)
         {

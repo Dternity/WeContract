@@ -2,12 +2,10 @@
 using System.IO;
 using System.Drawing;
 using System.Collections.Generic;
-using WeContractLib.Diagnostics;
-using System.Reflection;
 
-namespace WeContract.Helpers
+namespace WeContractLib.Storage
 {
-    public static class ImageHelper
+	public static class ImageHelper
     {
         /// <summary>
         /// Gets an image from a Base64 string.

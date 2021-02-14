@@ -21,7 +21,6 @@ namespace WeContractLib.Contract
 
             if (disposing)
             {
-
             }
 
             _disposed = true;
@@ -32,8 +31,7 @@ namespace WeContractLib.Contract
 
         protected override bool AddToDbPreCheck(Contract entity)
         {
-
-            if (entity.WaitingToArchive == false)
+            if (!entity.WaitingToArchive)
             {
                 Log.Error($"{_TName} with CID: {entity.CID} is not ready to be archived!", MethodBase.GetCurrentMethod());
                 return false;

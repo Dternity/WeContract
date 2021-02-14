@@ -51,11 +51,9 @@ namespace WeContractLib.Customer
             var address = "Nha";
             var zipCode = "Nha";
             var phone = "Nha";
-            var contactCount = "Nha";
             var email = "Nha";
             var note = "Nha";
             var countryCode = "Nha";
-
 
             if (DateCreated != new DateTime())
             {
@@ -76,7 +74,6 @@ namespace WeContractLib.Customer
             {
                 phone = TextFormatting.PhoneNumberFormat(Convert.ToUInt32(PhoneNumber));
             }
-
 
             if (!string.IsNullOrEmpty(EmailAddress))
             {
@@ -115,7 +112,7 @@ namespace WeContractLib.Customer
 
             if (Contracts.Contains(entity))
             {
-                Log.Warning($@"Contract:{entity} is already added to customer:{Name}");
+                Log.Warning($"Contract:{entity} is already added to customer:{Name}");
                 return false;
             }
 
@@ -130,7 +127,7 @@ namespace WeContractLib.Customer
                 return true;
             }
 
-            Log.Warning($@"Contract:{entity} is not attached to customer:{Name}");
+            Log.Warning($"Contract:{entity} is not attached to customer:{Name}");
             return false;
         }
 
@@ -146,7 +143,6 @@ namespace WeContractLib.Customer
         public short ZipCode { get; set; }
         public string DeliveringAddress { get; set; }
         public string Note { get; set; }
-
 
         public override string ToString()
         {

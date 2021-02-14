@@ -8,7 +8,7 @@ namespace WeContractLib.Diagnostics
         {
             sw.Stop();
             var time = sw.Elapsed.TotalMilliseconds;
-            Logger.Inst.Info($@"{prefix} Took:{time}ms");
+            Logger.Inst.Info($"{prefix} Took:{time}ms");
             if (restart)
             {
                 sw.Restart();

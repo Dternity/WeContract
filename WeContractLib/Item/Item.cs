@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using WeContractLib.Diagnostics;
+using WeContractLib.Misc;
 using static WeContractLib.Misc.GlobalEventHandler;
 
 namespace WeContractLib.Item
@@ -11,8 +13,7 @@ namespace WeContractLib.Item
         private bool _paid;
         private double price;
         private ushort units;
-        private DateTime paidDate;
-        private string name;
+		private string name;
 
         public Item()
         {
@@ -41,9 +42,9 @@ namespace WeContractLib.Item
         public DateTime DeliveredDate { get; set; }
 
         public bool Paid { get => _paid; set { _paid = value; PaidChanged?.Invoke(this, new EventArgs<Item>(this)); RaiseChanged(); } }
-        public DateTime PaidDate { get => paidDate; set => paidDate = value; }
+		public DateTime PaidDate { get; set; }
 
-        public double GetTotalPrice()
+		public double GetTotalPrice()
         {
             return Price * Units;
         }
@@ -69,20 +70,35 @@ namespace WeContractLib.Item
 
         public virtual void OnDeliveredChanged(object sender, EventArgs<Item> e)
         {
-            Log.Debug($@"Item: {Name} delivered changed to {Delivered}");
+            Log.Debug($"Item: {Name} delivered changed to {Delivered}");
             DeliveredDate = Delivered ? DeliveredDate = DateTime.Now : DeliveredDate = default;
         }
 
         public virtual void OnOrderedChanged(object sender, EventArgs<Item> e)
         {
-            Log.Debug($@"Item: {Name} ordered changed to {Ordered}");
+            Log.Debug($"Item: {Name} ordered changed to {Ordered}");
             OrderDate = Ordered ? OrderDate = DateTime.Now : OrderDate = default;
         }
 
         public virtual void OnPaidChanged(object sender, EventArgs<Item> e)
         {
-            Log.Debug($@"Item: {Name} paid changed to {Paid}");
+            Log.Debug($"Item: {Name} paid changed to {Paid}");
             PaidDate = Paid ? PaidDate = DateTime.Now : PaidDate = default;
+        }
+
+        public List<object> GetColumnIndexes()
+        {
+            return new List<object>
+            {
+                Units,
+                Name,
+                TextFormatting.CurrencyFormat( Price) + " kr",
+                TextFormatting.CurrencyFormat( GetTotalPrice(),false) + " kr",
+                ID,
+                Ordered,
+                Delivered,
+                Paid,
+            };
         }
 
         public Item Clone()
@@ -110,7 +126,7 @@ namespace WeContractLib.Item
         {
             if (Contract == entity.CID)
             {
-                Log.Warning($@"Contract:{entity} is already added to item:{Name}");
+                Log.Warning($"Contract:{entity} is already added to item:{Name}");
                 return false;
             }
             RaiseChanged();
@@ -126,7 +142,7 @@ namespace WeContractLib.Item
                 return true;
             }
 
-            Log.Warning($@"Contract:{entity} is not attached to item:{Name}");
+            Log.Warning($"Contract:{entity} is not attached to item:{Name}");
             return false;
         }
 
